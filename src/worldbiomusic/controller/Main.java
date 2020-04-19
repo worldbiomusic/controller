@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import worldbiomusic.controller.cmd.CommandHelper;
 import worldbiomusic.controller.util.Setting;
 
 /*
@@ -33,6 +34,9 @@ public class Main extends JavaPlugin{
 		this.server = getServer();
 		setting = new Setting();
 		
+		addCommands();
+		addEvents();
+		
 		// notify on
 		server.getConsoleSender().sendMessage(ChatColor.GREEN + "Controller ON");
 	}
@@ -41,5 +45,15 @@ public class Main extends JavaPlugin{
 	{
 		// notify on
 		server.getConsoleSender().sendMessage(ChatColor.GREEN + "Controller OFF");
+	}
+	
+	void addCommands()
+	{
+		getCommand("c").setExecutor(new CommandHelper());
+	}
+	
+	void addEvents()
+	{
+		
 	}
 }
