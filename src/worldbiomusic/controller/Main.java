@@ -1,10 +1,10 @@
-package worldbiomusic.controller.main;
+package worldbiomusic.controller;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import worldbiomusic.controller.setting.Setting;
+import worldbiomusic.controller.util.Setting;
 
 /*
  * object oriented 

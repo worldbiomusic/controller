@@ -1,4 +1,4 @@
-package worldbiomusic.controller.setting;
+package worldbiomusic.controller.util;
 
 public class Setting {
 	

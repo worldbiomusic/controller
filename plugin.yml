@@ -1,6 +1,9 @@
 name: controller
-main: controller.src.main.Main
+main: controller.src.Main
 version: 1.0.0
 author: worldbiomusic
 
 commands:
+  c:
+    description: controller plugin
+    usage: /c
