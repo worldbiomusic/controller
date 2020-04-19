@@ -5,6 +5,7 @@ import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import worldbiomusic.controller.cmd.CommandHelper;
+import worldbiomusic.controller.dynamics.DynamicGUIManager;
 import worldbiomusic.controller.util.Setting;
 
 /*
@@ -54,6 +55,6 @@ public class Main extends JavaPlugin{
 	
 	void addEvents()
 	{
-		
+		server.getPluginManager().registerEvents(new DynamicGUIManager(setting), this);
 	}
 }
