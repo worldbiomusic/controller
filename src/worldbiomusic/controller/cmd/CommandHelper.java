@@ -9,14 +9,18 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import worldbiomusic.controller.util.InventoryGUIHelper;
+import worldbiomusic.controller.util.Setting;
 
 public class CommandHelper implements CommandExecutor{
 
 	InventoryGUIHelper guiHelper;
 	
-	public CommandHelper()
+	Setting setting;
+	
+	public CommandHelper(Setting setting)
 	{
 		this.guiHelper = new InventoryGUIHelper();
+		this.setting = setting;
 	}
 	
 	@Override
@@ -44,12 +48,12 @@ public class CommandHelper implements CommandExecutor{
 			p.sendMessage("open controller GUI");
 			
 			// get Static / Dynamic choice inventory GUI
-			guiHelper.createNewInventory(null, 9);
+			guiHelper.createNewInventory(null, 9, setting.controllerMenuTitle);
 			guiHelper.setEmptySpaceToItem(Material.THIN_GLASS, " ");
 			
 			
-			guiHelper.setItem(3, new ItemStack(Material.ENDER_CHEST), "Static");
-			guiHelper.setItem(5, new ItemStack(Material.CHEST), "Dynamic");
+			guiHelper.setItem(3, new ItemStack(Material.ENDER_CHEST), setting.staticItemDisplayName);
+			guiHelper.setItem(5, new ItemStack(Material.CHEST), setting.dynamicItemDisplayName);
 			
 			Inventory inv = guiHelper.getInventory();
 			

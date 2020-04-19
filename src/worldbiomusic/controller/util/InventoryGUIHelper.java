@@ -23,9 +23,9 @@ public class InventoryGUIHelper{
 		return this.inv;
 	}
 	
-	public void createNewInventory(InventoryHolder owner, int size)
+	public void createNewInventory(InventoryHolder owner, int size, String title)
 	{
-		this.inv = Bukkit.createInventory(owner, size);
+		this.inv = Bukkit.createInventory(owner, size, title);
 	}
 	
 	public void setEmptySpaceToItem(Material material, String displayName)

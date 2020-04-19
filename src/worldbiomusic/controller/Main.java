@@ -49,7 +49,7 @@ public class Main extends JavaPlugin{
 	
 	void addCommands()
 	{
-		getCommand("c").setExecutor(new CommandHelper());
+		getCommand("c").setExecutor(new CommandHelper(setting));
 	}
 	
 	void addEvents()
