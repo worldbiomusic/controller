@@ -1,5 +1,7 @@
 package worldbiomusic.controller.dynamics;
 
+import java.util.HashMap;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,161 +14,170 @@ import org.bukkit.inventory.meta.ItemMeta;
 import worldbiomusic.controller.util.InventoryGUIHelper;
 import worldbiomusic.controller.util.Setting;
 
-public class DynamicGUIManager implements Listener{
+public class DynamicGUIManager implements Listener {
 
 	InventoryGUIHelper guiHelper;
-	
+
 	Setting setting;
-	
-	public DynamicGUIManager(Setting setting)
-	{
+
+	DynamicManager dm;
+
+	public DynamicGUIManager(Setting setting, DynamicManager dm) {
 		this.guiHelper = new InventoryGUIHelper();
 		this.setting = setting;
+		this.dm = dm;
 	}
-	
+
 	@EventHandler
-	public void onPlayerClickControllerMenu(InventoryClickEvent e)
-	{
+	public void onPlayerClickControllerMenu(InventoryClickEvent e) {
 		Inventory inv = e.getInventory();
 		Player p = (Player) e.getWhoClicked();
-		
+
 		// check inventory title
-		if( ! inv.getTitle().equals(setting.controllerMenuTitle)) {
+		if (!inv.getTitle().equals(setting.controllerMenuTitle)) {
 			return;
 		}
-			
+
 		// set event cancelled
 		e.setCancelled(true);
-		
+
 		// open Dynamic menu
-		ItemStack item = e.getCurrentItem(); 
-		if(item == null) {
+		ItemStack item = e.getCurrentItem();
+		if (item == null) {
 			return;
 		}
-		
+
 		ItemMeta meta = item.getItemMeta();
-		if(meta == null)
+		if (meta == null)
 			return;
-		
-		String menu = meta.getDisplayName(); 
-		
-		if(menu.equals(setting.dynamicItemDisplayName))
-		{
+
+		String menu = meta.getDisplayName();
+
+		if (menu.equals(setting.dynamicItemDisplayName)) {
 			p.sendMessage("you clicked dynamic");
-			
+
 			Inventory dynamicMenuInv = getDynamicMenu();
 			p.openInventory(dynamicMenuInv);
 		}
 	}
-	
+
 	@EventHandler
-	public void onPlayerClickDynamicMenu(InventoryClickEvent e)
-	{
+	public void onPlayerClickDynamicMenu(InventoryClickEvent e) {
 		Inventory inv = e.getInventory();
 		Player p = (Player) e.getWhoClicked();
-		
+
 		// check inventory title
-		if( ! inv.getTitle().equals(setting.dynamicMenuTitle)) {
+		if (!inv.getTitle().equals(setting.dynamicMenuTitle)) {
 			return;
 		}
-			
+
 		// set event cancelled
 		e.setCancelled(true);
-		
+
 		// open selected menu (All Player & Each Player)
-		ItemStack item = e.getCurrentItem(); 
-		if(item == null) {
+		ItemStack item = e.getCurrentItem();
+		if (item == null) {
 			return;
 		}
-		
+
 		ItemMeta meta = item.getItemMeta();
-		if(meta == null)
+		if (meta == null)
 			return;
-		
+
 		String menu = meta.getDisplayName();
-		
-		if(menu.equals(setting.dynamicAllPlayerItemDisplayName)) {
+
+		if (menu.equals(setting.dynamicAllPlayerItemDisplayName)) {
 			p.sendMessage("you clicked dynamic all player");
 			Inventory AllPlayerMenu = getDynamicAllPlayerMenu();
 			p.openInventory(AllPlayerMenu);
-			
-		} else if(menu.equals(setting.dynamicEachPlayerItemDisplayName)) {
+
+		} else if (menu.equals(setting.dynamicEachPlayerItemDisplayName)) {
 			p.sendMessage("you clicked dynamic each player");
 			Inventory EachPlayerMenu = getDynamicEachPlayerMenu();
 			p.openInventory(EachPlayerMenu);
 		}
-		
-		
+
 	}
-	
+
 	@EventHandler
-	public void onPlayerClickDynamicAllPlayerMenu(InventoryClickEvent e)
-	{
+	public void onPlayerClickDynamicAllPlayerMenu(InventoryClickEvent e) {
 		Inventory inv = e.getInventory();
 		Player p = (Player) e.getWhoClicked();
-		
+
 		// check inventory title
-		if( ! inv.getTitle().equals(setting.dynamicAllPlayerMenuTitle)) {
+		if (!inv.getTitle().equals(setting.dynamicAllPlayerMenuTitle)) {
 			return;
 		}
-			
+
+		// set event cancelled
+		e.setCancelled(true);
+
+		// change state of controlItem
+		int slot = e.getSlot();
+		
+		ControlItem item = dm.getControlItem(slot);
+		if (item == null) {
+			return;
+		}
+
+		item.changeState();
+		
+		// update viewing inventory
+		inv.setItem(slot, item);
+	}
+
+	@EventHandler
+	public void onPlayerClickDynamicEachPlayerMenu(InventoryClickEvent e) {
+		Inventory inv = e.getInventory();
+		Player p = (Player) e.getWhoClicked();
+
+		// check inventory title
+		if (!inv.getTitle().equals(setting.dynamicEachPlayerMenuTitle)) {
+			return;
+		}
+
 		// set event cancelled
 		e.setCancelled(true);
 	}
-	
-	@EventHandler
-	public void onPlayerClickDynamicEachPlayerMenu(InventoryClickEvent e)
-	{
-		Inventory inv = e.getInventory();
-		Player p = (Player) e.getWhoClicked();
-		
-		// check inventory title
-		if( ! inv.getTitle().equals(setting.dynamicEachPlayerMenuTitle)) {
-			return;
-		}
-			
-		// set event cancelled
-		e.setCancelled(true);
-	}
-	
-	
-	
-	Inventory getDynamicMenu()
-	{
+
+	Inventory getDynamicMenu() {
 		Inventory inv;
-		
+
 		guiHelper.createNewInventory(null, 9, setting.dynamicMenuTitle);
 		guiHelper.setEmptySpaceToItem(Material.THIN_GLASS, " ");
-		
+
 		guiHelper.setItem(3, new ItemStack(Material.ARMOR_STAND), setting.dynamicAllPlayerItemDisplayName);
-		guiHelper.setItem(5, new ItemStack(Material.SKULL_ITEM, 1, (byte)3), setting.dynamicEachPlayerItemDisplayName);
-		
+		guiHelper.setItem(5, new ItemStack(Material.SKULL_ITEM, 1, (byte) 3), setting.dynamicEachPlayerItemDisplayName);
+
 		inv = guiHelper.getInventory();
-		
+
 		return inv;
 	}
-	
-	Inventory getDynamicAllPlayerMenu()
-	{
+
+	Inventory getDynamicAllPlayerMenu() {
 		Inventory inv;
-		
+
 		guiHelper.createNewInventory(null, 54, setting.dynamicAllPlayerMenuTitle);
 		guiHelper.setEmptySpaceToItem(Material.THIN_GLASS, " ");
-		
+
+		HashMap<Integer, ControlItem> allPlayer = dm.allPlayer;
+		for (int slot : allPlayer.keySet()) {
+			guiHelper.setItem(slot, allPlayer.get(slot));
+		}
+
 		inv = guiHelper.getInventory();
-		
+
 		return inv;
 	}
-	
-	Inventory getDynamicEachPlayerMenu()
-	{
+
+	Inventory getDynamicEachPlayerMenu() {
 		Inventory inv;
-		
+
 		guiHelper.createNewInventory(null, 54, setting.dynamicEachPlayerMenuTitle);
 		guiHelper.setEmptySpaceToItem(Material.THIN_GLASS, " ");
-		
+
 		inv = guiHelper.getInventory();
-		
+
 		return inv;
 	}
 }
