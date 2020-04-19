@@ -1,0 +1,6 @@
+name: controller
+main: controller.src.main.Main
+version: 1.0.0
+author: worldbiomusic
+
+commands:
