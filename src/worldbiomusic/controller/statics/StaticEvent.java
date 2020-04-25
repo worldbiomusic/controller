@@ -1,5 +1,5 @@
 package worldbiomusic.controller.statics;
 
-public class StaticPlayerEvent {
+public class StaticEvent {
 
 }

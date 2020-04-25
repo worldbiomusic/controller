@@ -1,5 +1,7 @@
 package worldbiomusic.controller.util;
 
+import worldbiomusic.controller.PlayerControlType;
+
 public class Setting {
 	public static final boolean DEBUG = true;
 
@@ -7,6 +9,7 @@ public class Setting {
 	public String controllerMenuTitle;
 	public String staticItemDisplayName;
 	public String dynamicItemDisplayName;
+	public String backItemDisplayName;
 	
 	// static
 	
@@ -20,6 +23,7 @@ public class Setting {
 	public String dynamicAllPlayerMenuTitle;
 	public String dynamicEachPlayerMenuTitle;
 	
+	public int dynamicAllPlayerSize;
 	
 	
 	public Setting()
@@ -33,7 +37,7 @@ public class Setting {
 		this.controllerMenuTitle = "Controller Menu";
 		this.staticItemDisplayName = "Static";
 		this.dynamicItemDisplayName = "Dynamic";
-		
+		this.backItemDisplayName = "BACK";
 		
 		// static
 		
@@ -46,6 +50,8 @@ public class Setting {
 		
 		this.dynamicAllPlayerMenuTitle = "All Player Menu";
 		this.dynamicEachPlayerMenuTitle = "Each Player Menu";
+		
+		this.dynamicAllPlayerSize = PlayerControlType.values().length;
 	}
 	
 }
