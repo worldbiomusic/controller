@@ -5,6 +5,10 @@ import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import worldbiomusic.controller.cmd.CommandHelper;
+import worldbiomusic.controller.dynamics.DynamicGUIManager;
+import worldbiomusic.controller.dynamics.DynamicManager;
+import worldbiomusic.controller.dynamics.DynamicEvent;
+import worldbiomusic.controller.statics.StaticManager;
 import worldbiomusic.controller.util.Setting;
 
 /*
@@ -16,9 +20,21 @@ public class Main extends JavaPlugin{
 	Server server;
 	Setting setting;
 	
+	StaticManager sm;
+	DynamicManager dm;
+	
+	DynamicGUIManager dGUIM;
+	
+	static Main main;
+	
+	public static Main getInstance() {
+		return main;
+	}
+	
 	@Override
 	public void onEnable() 
 	{
+		main = this;
 		setupOnEnable();
 	}
 	
@@ -33,6 +49,13 @@ public class Main extends JavaPlugin{
 	{
 		this.server = getServer();
 		setting = new Setting();
+		
+		sm = new StaticManager();
+		dm = new DynamicManager(setting); 
+		
+		dGUIM = new DynamicGUIManager(setting, dm);
+		dm.attachGUIManager(dGUIM);
+		
 		
 		addCommands();
 		addEvents();
@@ -49,11 +72,12 @@ public class Main extends JavaPlugin{
 	
 	void addCommands()
 	{
-		getCommand("c").setExecutor(new CommandHelper(setting));
+		getCommand("c").setExecutor(new CommandHelper(setting, sm, dm));
 	}
 	
 	void addEvents()
 	{
-		
+		server.getPluginManager().registerEvents(dGUIM, this);
+		server.getPluginManager().registerEvents(new DynamicEvent(setting, dm), this);
 	}
 }
