@@ -3,7 +3,7 @@ package worldbiomusic.controller.util;
 import worldbiomusic.controller.PlayerControlType;
 
 public class Setting {
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	// common
 	public String controllerMenuTitle;

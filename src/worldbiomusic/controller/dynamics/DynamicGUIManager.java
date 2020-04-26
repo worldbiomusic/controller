@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import worldbiomusic.controller.util.InventoryGUIHelper;
 import worldbiomusic.controller.util.Setting;
+import worldbiomusic.controller.util.Util;
 
 public class DynamicGUIManager implements Listener {
 
@@ -54,8 +55,8 @@ public class DynamicGUIManager implements Listener {
 			return;
 		
 		if (menu.equals(setting.dynamicItemDisplayName)) {
-			p.sendMessage("you clicked dynamic");
-
+			Util.DebugMsg(p, "you clicked dynamic");
+			
 			Inventory dynamicMenuInv = getDynamicMenu();
 			p.openInventory(dynamicMenuInv);
 		}
@@ -87,12 +88,12 @@ public class DynamicGUIManager implements Listener {
 		String menu = meta.getDisplayName();
 
 		if (menu.equals(setting.dynamicAllPlayerItemDisplayName)) {
-			p.sendMessage("you clicked dynamic all player");
+			Util.DebugMsg(p, "you clicked dynamic all player");
 			Inventory AllPlayerMenu = getDynamicAllPlayerMenu();
 			p.openInventory(AllPlayerMenu);
 
 		} else if (menu.equals(setting.dynamicEachPlayerItemDisplayName)) {
-			p.sendMessage("you clicked dynamic each player");
+			Util.DebugMsg(p, "you clicked dynamic each player");
 			Inventory EachPlayerMenu = getDynamicEachPlayerMenu();
 			p.openInventory(EachPlayerMenu);
 		} else if (menu.equals(setting.backItemDisplayName)) {

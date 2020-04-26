@@ -23,6 +23,7 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import worldbiomusic.controller.Main;
 import worldbiomusic.controller.PlayerControlType;
 import worldbiomusic.controller.util.Setting;
+import worldbiomusic.controller.util.Util;
 
 public class DynamicEvent implements Listener{
 
@@ -36,28 +37,23 @@ public class DynamicEvent implements Listener{
 		onChangedTime();
 	}
 	
-	void sendMsg(Player p, String msg) {
-		if(Setting.DEBUG)
-			p.sendMessage(msg);
-	}
-	
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
-		sendMsg(p, "chat");
+		Util.DebugMsg(p,  "chat");
 		if( ! dm.getControlItem(PlayerControlType.CHAT).getState()) {
 			e.setCancelled(true);
-			sendMsg(p, "blocked");
+			Util.DebugMsg(p, "blocked");
 		}
 	}
 	
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent e) {
 		Player p = e.getPlayer();
-		sendMsg(p, "move");
+		Util.DebugMsg(p, "move");
 		if( ! dm.getControlItem(PlayerControlType.MOVE).getState()) {
 			e.setCancelled(true);
-			sendMsg(p, "blocked");
+			Util.DebugMsg(p, "blocked");
 		}
 	}
 	
@@ -66,10 +62,10 @@ public class DynamicEvent implements Listener{
 		if(e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
 			Player p = (Player) e.getDamager();
 			
-			sendMsg(p, "pvp");
+			Util.DebugMsg(p, "pvp");
 			if( ! dm.getControlItem(PlayerControlType.PVP).getState()) {
 				e.setCancelled(true);
-				sendMsg(p, "blocked");
+				Util.DebugMsg(p, "blocked");
 			}
 		}
 		
@@ -78,20 +74,20 @@ public class DynamicEvent implements Listener{
 	@EventHandler
 	public void onPlayerBreakBlock(BlockBreakEvent e) {
 		Player p = e.getPlayer();
-		sendMsg(p, "break block");
+		Util.DebugMsg(p, "break block");
 		if( ! dm.getControlItem(PlayerControlType.BLOCK_BREAK).getState()) {
 			e.setCancelled(true);
-			sendMsg(p, "blocked");
+			Util.DebugMsg(p, "blocked");
 		}
 	}
 	
 	@EventHandler
 	public void onPlayerPlaceBlock(BlockPlaceEvent e) {
 		Player p = e.getPlayer();
-		sendMsg(p, "place block");
+		Util.DebugMsg(p, "place block");
 		if( ! dm.getControlItem(PlayerControlType.BLOCK_PLACE).getState()) {
 			e.setCancelled(true);
-			sendMsg(p, "blocked");
+			Util.DebugMsg(p, "blocked");
 		}
 	}
 	
@@ -100,10 +96,10 @@ public class DynamicEvent implements Listener{
 		if(e.getDamager() instanceof Player && e.getEntity() instanceof Monster) {
 			Player p = (Player) e.getDamager();
 			
-			sendMsg(p, "mob hit");
+			Util.DebugMsg(p, "mob hit");
 			if( ! dm.getControlItem(PlayerControlType.MOB_HIT).getState()) {
 				e.setCancelled(true);
-				sendMsg(p, "blocked");
+				Util.DebugMsg(p, "blocked");
 			}
 		}
 	}
@@ -111,10 +107,10 @@ public class DynamicEvent implements Listener{
 	@EventHandler
 	public void onCrafting(CraftItemEvent e) {
 		Player p = (Player) e.getWhoClicked();
-		sendMsg(p, "craft");
+		Util.DebugMsg(p, "craft");
 		if( ! dm.getControlItem(PlayerControlType.CRAFTING).getState()) {
 			e.setCancelled(true);
-			sendMsg(p, "blocked");
+			Util.DebugMsg(p, "blocked");
 		}
 	}
 	
@@ -148,10 +144,10 @@ public class DynamicEvent implements Listener{
 	public void onPlayerPickUpItem(EntityPickupItemEvent e) {
 		if(e.getEntity() instanceof Player) {
 			Player p = (Player) e.getEntity();
-			sendMsg(p, "pickup item");
+			Util.DebugMsg(p, "pickup item");
 			if( ! dm.getControlItem(PlayerControlType.ITEM_PICKUP).getState()) {
 				e.setCancelled(true);
-				sendMsg(p, "blocked");
+				Util.DebugMsg(p, "blocked");
 			}
 			
 		}
@@ -160,20 +156,20 @@ public class DynamicEvent implements Listener{
 	@EventHandler
 	public void onPlayerDropItem(PlayerDropItemEvent e) {
 		Player p = e.getPlayer();
-		sendMsg(p, "drop item");
+		Util.DebugMsg(p, "drop item");
 		if( ! dm.getControlItem(PlayerControlType.ITEM_DROP).getState()) {
 			e.setCancelled(true);
-			sendMsg(p, "blocked");
+			Util.DebugMsg(p, "blocked");
 		}
 	}
 	
 	@EventHandler
 	public void onPlayerLevelChanged(PlayerLevelChangeEvent e) {
 		Player p = e.getPlayer();
-		sendMsg(p, "level change");
+		Util.DebugMsg(p, "level change");
 		if( ! dm.getControlItem(PlayerControlType.LEVEL).getState()) {
 			p.setLevel(e.getOldLevel());
-			sendMsg(p, "blocked");
+			Util.DebugMsg(p, "blocked");
 		}
 	}
 	

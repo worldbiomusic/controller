@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import worldbiomusic.controller.dynamics.DynamicManager;
 import worldbiomusic.controller.statics.StaticManager;
 import worldbiomusic.controller.util.Setting;
+import worldbiomusic.controller.util.Util;
 
 public class CommandHelper implements CommandExecutor{
 
@@ -46,7 +47,7 @@ public class CommandHelper implements CommandExecutor{
 		
 		if(length == 0)
 		{
-			p.sendMessage("open controller GUI");
+			Util.DebugMsg(p, "open controller GUI");
 			
 			// open inv
 			p.openInventory(dm.getControlMenu());
